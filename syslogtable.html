@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+
+<!-- Sample code to open a socket connection via web call in html using javascript -->
+
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        
+
+    </head>
+    <body>
+            
+    </body>
+</html>
+<script>
+	
+	
+	
+  var websocket_log = new WebSocket('ws://192.168.1.1:5001', 'protocol_system_log');
+    websocket_log.onopen = function () {
+        console.log("WS LOG Connection established !!\n");
+        websocket_log.send("Device.DeviceInfo.VendorLogFile.1");
+    };
+
+    websocket_log.onmessage = function (message) {
+        
+        var row = message.data;
+        var p1 = row.substring(0, row.indexOf("-")).trim();
+        var items = p1.split(" "); //Jul  8 06:18:04 syslog:debug
+        var items1 = [];
+        if (items.length == 5)
+            items1 = items[4].split(":");
+        else
+            items1 = items[3].split(":");
+        $scope.newLog.type = items1[0];
+        $scope.newLog.level = items1[1];
+
+        if ($scope.newLog.level === 'err' || $scope.newLog.level === 'critical')
+            $scope.newLog.class = "org_bg";
+        else if ($scope.newLog.level === 'alert' || $scope.newLog.level === 'emergency')
+            $scope.newLog.class = "mrn_bg";
+        else {
+            $scope.newLog.class = "black_bg";
+        }
+        if (items.length == 5)
+            $scope.newLog.time = items[0] + " " + items[3];
+        else
+            $scope.newLog.time = items[0] + " " + items[2];
+        $scope.newLog.content = row.substring(row.indexOf("-") + 1, row.length).trim();
+        //var tr = "<tr class='"+cls+"'><td>"+dt+"</td><td>"+type+"</td><td>"+notice+"</td><td>"+p2+"</td></tr>";
+        //websocket_log.close();
+        //console.log(row);
+        if ($scope.newLog.level === filter) {
+            //$scope.logs.push(angular.copy($scope.newLog));
+            $scope.logs.splice(0, 0, angular.copy($scope.newLog));
+            if (!$scope.$$phase) {
+                $scope.$apply();
+            }
+            //$scope.newLog = {};
+        }
+        if (filter === "all") {
+            $scope.logs.splice(0, 0, angular.copy($scope.newLog));
+            if (!$scope.$$phase) {
+                $scope.$apply();
+            }
+        }
+        count = count + 1;
+//        if (count > 100) {
+//            //$('#log tr:first').remove();
+//            websocket_log.close();
+//        }
+
+    };
+
+    websocket_log.onclose = function () {
+        console.log("Connection is closed... Bye !");
+    };
+</script>
