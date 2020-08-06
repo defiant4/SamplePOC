@@ -312,12 +312,12 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
 var transporter =  nodemailer.createTransport({
 //pool: true,
-host: 'mail.sap.corp',       //'proxy-tco.wdf.sap.corp',
+host: '',       //'proxy-tco.wdf.sap.corp',
 secure: false,
 port: 587,
 auth: {
-    user: 'dlm-rmda-information',
-    pass: 'Nk2bnbo$'
+    user: '',
+    pass: ''
 }
 // tls: {
 //     // do not fail on invalid certs
@@ -344,10 +344,10 @@ var html5=`<html>
 
 finalhtml=html1+html2+html3+html4+html5;
 var mailOptions = {
-    from: 'sap_dlm_rmda_information@sap.com',
+    from: '',
     to: ['arnab.adhikari@sap.com'],
     cc: ['arnab.adhikari@sap.com'],
-    subject : 'DLM RMDA/ODC: Development Support handover on '+ret ,
+    subject : 'DLM'+ret ,
     html : finalhtml
 
 //    text: 'Success! Please ignore this mail.'
