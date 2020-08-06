@@ -338,16 +338,16 @@ transporter.verify(function(error, success) {
 
 var finalhtml ="";
 var html5=`<html>
-            <p>Regards,<br>
-            RMDA.</p>
+            <p><text><br>
+            <text></p>
             </html>`;
 
 finalhtml=html1+html2+html3+html4+html5;
 var mailOptions = {
     from: '',
-    to: ['arnab.adhikari@sap.com'],
-    cc: ['arnab.adhikari@sap.com'],
-    subject : 'DLM'+ret ,
+    to: <email>,
+    cc: <email>,
+    subject : '<text>'+ret ,
     html : finalhtml
 
 //    text: 'Success! Please ignore this mail.'
